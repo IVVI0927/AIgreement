@@ -1,6 +1,6 @@
-# Agreement: Legal LLM Chrome Extension
+# AIgreement: Legal LLM Chrome Extension
 
-**Agreement** is a Chrome extension that helps users analyze legal terms and contracts using a local LLM (via API) and a built-in legal dictionary. It is designed for law students, professionals, and privacy-conscious users who want AI-powered contract interpretation without uploading sensitive data to the cloud.
+**AIgreement** is a Chrome extension that helps users analyze legal terms and contracts using a local LLM (via API) and a built-in legal dictionary. It is designed for law students, professionals, and privacy-conscious users who want AI-powered contract interpretation without uploading sensitive data to the cloud.
 
 ---
 
