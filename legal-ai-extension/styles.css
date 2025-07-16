@@ -1,0 +1,28 @@
+
+
+
+/* 分析结果的容器样式 */
+.analysis-result {
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+/* 风险等级样式 */
+.risk-high {
+  color: red;
+  font-weight: bold;
+}
+
+.risk-medium {
+  color: orange;
+  font-weight: bold;
+}
+
+.risk-low {
+  color: green;
+  font-weight: bold;
+}

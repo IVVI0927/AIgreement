@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "LegalAI Contract Analyzer",
+  "version": "1.0",
+  "description": "Analyze contract clauses with local LLM",
+  "permissions": ["scripting", "activeTab", "contextMenus"],
+  "host_permissions": [
+    "http://localhost:8080/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+
+ "web_accessible_resources": [
+  {
+    "resources": ["dictionary.json"],
+    "matches": ["<all_urls>"]
+  }
+],
+  "content_scripts": [
+  {
+    "matches": ["<all_urls>"],
+    "js": ["selection-buttons.js"],
+    "run_at": "document_idle"
+  }
+]
+}

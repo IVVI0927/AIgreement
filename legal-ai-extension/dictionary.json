@@ -1,0 +1,226 @@
+[
+  {
+    "term": "Lease Term",
+    "definition": "The duration for which the lease agreement is valid."
+  },
+  {
+    "term": "Security Deposit",
+    "definition": "A refundable amount held to cover potential damage or unpaid rent."
+  },
+  {
+    "term": "Sublease",
+    "definition": "An arrangement where the original tenant rents out the property to another party."
+  },
+  {
+    "term": "Eviction",
+    "definition": "The legal process by which a landlord removes a tenant from rental property."
+  },
+  {
+    "term": "Maintenance Responsibility",
+    "definition": "Clause defining which party is responsible for upkeep and repairs."
+  },
+  {
+    "term": "Non-compete Clause",
+    "definition": "A clause that restricts an employee from working with competitors for a period after leaving a company."
+  },
+  {
+    "term": "At-Will Employment",
+    "definition": "An employment relationship where either party can terminate at any time without cause."
+  },
+  {
+    "term": "Probation Period",
+    "definition": "A trial period at the start of employment during which either party may terminate the contract."
+  },
+  {
+    "term": "Severance Pay",
+    "definition": "Compensation offered to an employee upon involuntary termination."
+  },
+  {
+    "term": "Intellectual Property",
+    "definition": "Creations of the mind such as inventions, literary works, designs, which are legally protected."
+  },
+  {
+    "term": "Force Majeure",
+    "definition": "A clause that frees both parties from liability when extraordinary events prevent fulfillment."
+  },
+  {
+    "term": "Termination Clause",
+    "definition": "Specifies the conditions under which a contract can be ended."
+  },
+  {
+    "term": "Indemnification",
+    "definition": "Obligation of one party to compensate another for losses or damages."
+  },
+  {
+    "term": "Arbitration",
+    "definition": "A method of resolving disputes outside of court, where an arbitrator makes the decision."
+  },
+  {
+    "term": "Confidentiality Agreement",
+    "definition": "A contract in which one party agrees not to disclose information."
+  },
+  {
+    "term": "Warranties",
+    "definition": "Promises made by one party regarding the condition or functionality of goods/services."
+  },
+  {
+    "term": "Liability Limitation",
+    "definition": "A clause that limits the amount or type of damages one party can recover."
+  },
+  {
+    "term": "Governing Law",
+    "definition": "Specifies which jurisdiction’s laws apply to the contract."
+  },
+  {
+    "term": "Entire Agreement",
+    "definition": "States that the written contract represents the complete agreement between parties."
+  },
+  {
+    "term": "Independent Contractor",
+    "definition": "A person contracted to perform work but not as an employee."
+  },
+  {
+    "term": "Service Level Agreement (SLA)",
+    "definition": "Defines performance metrics and responsibilities for service delivery."
+  },
+  {
+    "term": "Scope of Work",
+    "definition": "A section that describes specific tasks, deliverables, and timelines."
+  },
+  {
+    "term": "Payment Terms",
+    "definition": "Details about when and how payments will be made."
+  },
+  {
+    "term": "Breach of Contract",
+    "definition": "A violation of any of the agreed-upon terms in a binding contract."
+  },
+  {
+    "term": "Termination for Cause",
+    "definition": "Allows one party to end the contract due to a specific breach or event."
+  },
+  {
+    "term": "Assignment",
+    "definition": "Transfer of rights or obligations from one party to another."
+  },
+  {
+    "term": "Waiver",
+    "definition": "Voluntary relinquishment of a known right or claim."
+  },
+  {
+    "term": "Notices",
+    "definition": "Details how official communication between parties should be made."
+  },
+  {
+    "term": "Amendment",
+    "definition": "A change or addition to the original contract terms."
+  },
+  {
+    "term": "Terms of Service",
+    "definition": "Legal terms users must agree to in order to use a service."
+  },
+  {
+    "term": "User Content",
+    "definition": "Any data, text, or media submitted by users to a platform or service."
+  },
+  {
+    "term": "Acceptable Use Policy",
+    "definition": "Guidelines for proper use of a service or platform."
+  },
+  {
+    "term": "Privacy Policy",
+    "definition": "A statement explaining how user data is collected, used, and protected."
+  },
+  {
+    "term": "License",
+    "definition": "Permission granted to a user to do something that would otherwise be forbidden."
+  },
+  {
+    "term": "Third-Party Services",
+    "definition": "External services or content provided by entities other than the primary service provider."
+  },
+  {
+    "term": "Modification of Terms",
+    "definition": "Clause allowing changes to the agreement, often with user notification."
+  },
+  {
+    "term": "Governing Jurisdiction",
+    "definition": "Specifies which courts have authority in case of legal disputes."
+  },
+  {
+    "term": "Disclaimer",
+    "definition": "A statement that denies responsibility for certain outcomes or actions."
+  },
+  {
+    "term": "Limitation of Liability",
+    "definition": "Restricts the amount of liability a party may have under certain conditions."
+  },
+  {
+    "term": "Retention Period",
+    "definition": "The length of time that data or documents must be stored."
+  },
+  {
+    "term": "Term and Termination",
+    "definition": "Details when a contract starts, ends, and under what conditions it may terminate."
+  },
+  {
+    "term": "Dispute Resolution",
+    "definition": "Defines how disputes will be handled, such as via arbitration or mediation."
+  },
+  {
+    "term": "Effective Date",
+    "definition": "The date on which the contract becomes enforceable."
+  },
+  {
+    "term": "Representations and Warranties",
+    "definition": "Statements of fact and promises made by the parties."
+  },
+  {
+    "term": "Survival Clause",
+    "definition": "Specifies which obligations continue after contract termination."
+  },
+  {
+    "term": "Non-Disclosure Agreement (NDA)",
+    "definition": "A legal contract preventing disclosure of sensitive information."
+  },
+  {
+    "term": "Employment Agreement",
+    "definition": "A contract outlining the terms of employment between employer and employee."
+  },
+  {
+    "term": "Conflict of Interest",
+    "definition": "A situation where a party's judgment may be influenced by personal interest."
+  },
+  {
+    "term": "Background Check",
+    "definition": "Review of a person's criminal, financial, or employment history."
+  },
+  {
+    "term": "Service Provider",
+    "definition": "The party offering services under the agreement."
+  },
+  {
+    "term": "Client Obligations",
+    "definition": "Responsibilities that the client agrees to under the contract."
+},
+  {
+    "term": "Data Protection",
+    "definition": "Measures and policies to safeguard personal data."
+  },
+  {
+    "term": "Compliance",
+    "definition": "Adherence to laws, regulations, and standards applicable to the contract."
+  },
+  {
+    "term": "Intellectual Property Rights",
+    "definition": "Legal rights that grant creators control over their inventions and works."
+  },
+  {
+    "term": "Non-Solicitation Clause",
+    "definition": "Prevents one party from soliciting the other party's employees or clients."
+  },
+  {
+    "term": "Payment Schedule",
+    "definition": "A timeline outlining when payments are due under the contract."
+  }
+]
