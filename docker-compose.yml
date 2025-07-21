@@ -1,0 +1,200 @@
+services:
+  # 服务发现 - Eureka Server
+  discovery-service:
+    build: ./discovery-service
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - legalai-network
+
+  # 配置中心 - Config Server
+  config-service:
+    build: ./config-service
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-service
+    networks:
+      - legalai-network
+
+  # API 网关
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-service
+      - config-service
+    networks:
+      - legalai-network
+
+  # 合同管理服务
+  contract-service:
+    build: ./contract-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/legaldb
+    depends_on:
+      - discovery-service
+      - config-service
+      - postgres
+    networks:
+      - legalai-network
+
+  # LLM 处理服务
+  llm-service:
+    build: ./llm-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LLAMA_BASE_URL=http://llama-server:11434
+    depends_on:
+      - discovery-service
+      - config-service
+      - llama-server
+    networks:
+      - legalai-network
+
+  # 文件处理服务
+  file-service:
+    build: ./file-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-service
+      - config-service
+    networks:
+      - legalai-network
+
+  # 用户管理服务
+  user-service:
+    build: ./user-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/legaldb
+    depends_on:
+      - discovery-service
+      - config-service
+      - postgres
+    networks:
+      - legalai-network
+
+  # 通知服务
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-service
+      - config-service
+    networks:
+      - legalai-network
+
+  # 数据库
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: legaldb
+      POSTGRES_USER: legaluser
+      POSTGRES_PASSWORD: legalpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - legalai-network
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - legalai-network
+
+  # LLaMA 服务器
+  llama-server:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - llama_data:/root/.ollama
+    networks:
+      - legalai-network
+
+  # 监控 - Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - legalai-network
+
+  # 监控 - Grafana
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - legalai-network
+
+  # 日志聚合 - ELK Stack
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    networks:
+      - legalai-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - legalai-network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    volumes:
+      - ./monitoring/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - elasticsearch
+    networks:
+      - legalai-network
+
+volumes:
+  postgres_data:
+  llama_data:
+  grafana_data:
+
+networks:
+  legalai-network:
+    driver: bridge 

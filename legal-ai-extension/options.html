@@ -1,0 +1,21 @@
+<!-- options.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LegalAI 插件设置</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h2>LegalAI 插件设置</h2>
+
+  <label><input type="checkbox" id="enableGlossary"> 启用术语解释</label><br>
+  <label><input type="checkbox" id="enableRisk"> 启用风险标记</label><br>
+
+  <label for="apiKey">自定义 API Key</label><br>
+  <input type="text" id="apiKey" placeholder="可选，GPT Key" style="width:300px;"><br><br>
+
+  <button id="saveBtn">💾 保存设置</button>
+
+  <script src="options.js"></script>
+</body>
+</html>
