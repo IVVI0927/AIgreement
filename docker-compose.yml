@@ -56,11 +56,10 @@ services:
       - "8082:8082"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - LLAMA_BASE_URL=http://llama-server:11434
+      - LLAMA_BASE_URL=http://host.docker.internal:11434  # 访问你本地 Ollama
     depends_on:
       - discovery-service
       - config-service
-      - llama-server
     networks:
       - legalai-network
 

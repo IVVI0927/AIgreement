@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       // 通过 API Gateway 调用合同分析服务
       const response = await fetch(`${API_BASE_URL}/api/contracts/analyze`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ title, content })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, content })
       });
 
       if (!response.ok) {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       displayAnalysisResults(data.analysisResult);
     } catch (err) {
-      resultArea.innerText = "❌ Error: " + err.message;
+        resultArea.innerText = "❌ Error: " + err.message;
       console.error('Analysis error:', err);
     }
   });
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       displayHistoryResults(data);
     } catch (err) {
-      resultArea.innerText = "❌ Error loading history: " + err.message;
+        resultArea.innerText = "❌ Error loading history: " + err.message;
       console.error('History error:', err);
     }
   });
@@ -66,12 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // 1. 上传文件到合同服务
-      const formData = new FormData();
-      formData.append('file', file);
+    const formData = new FormData();
+    formData.append('file', file);
 
       const uploadResponse = await fetch(`${API_BASE_URL}/api/contracts/upload`, {
-        method: 'POST',
-        body: formData
+      method: 'POST',
+      body: formData
       });
 
       if (!uploadResponse.ok) {
@@ -83,13 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('contract').value = content;
 
       // 2. 调用 LLM 服务进行分析
-      const title = file.name || "Uploaded Contract";
-      
+        const title = file.name || "Uploaded Contract";
+
       const analysisResponse = await fetch(`${API_BASE_URL}/api/llm/analyze`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
         body: JSON.stringify({
           content: content
         })
@@ -109,29 +109,29 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function displayAnalysisResults(results) {
-    resultArea.innerHTML = '';
+            resultArea.innerHTML = '';
     if (!results || results.length === 0) {
       resultArea.innerHTML = '<p>No analysis results found.</p>';
       return;
     }
 
     results.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'analysis-result';
+              const div = document.createElement('div');
+              div.className = 'analysis-result';
 
-      let riskClass = '';
+              let riskClass = '';
       const riskLevel = item["risk level"] || item["risk_level"];
       if (riskLevel === 'High' || riskLevel === 'HIGH') riskClass = 'risk-high';
       else if (riskLevel === 'Medium' || riskLevel === 'MEDIUM') riskClass = 'risk-medium';
       else if (riskLevel === 'Low' || riskLevel === 'LOW') riskClass = 'risk-low';
 
-      div.innerHTML = `
+              div.innerHTML = `
         <p><strong>Clause:</strong> ${item.clause || 'N/A'}</p>
         <p><strong>Reason:</strong> ${item.reason || 'N/A'}</p>
         <p><strong>Risk Level:</strong> <span class="${riskClass}">${riskLevel || 'N/A'}</span></p>
-      `;
-      resultArea.appendChild(div);
-    });
+              `;
+              resultArea.appendChild(div);
+            });
   }
 
   function displayHistoryResults(contracts) {
@@ -150,13 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
         <small>Created: ${item.createdAt || 'Unknown'}</small><br/><br/>
       `;
       resultArea.appendChild(div);
-    });
+      });
   }
 
   async function loadLegalDictionary() {
     try {
-      const response = await fetch(chrome.runtime.getURL("dictionary.json"));
-      return await response.json();
+    const response = await fetch(chrome.runtime.getURL("dictionary.json"));
+    return await response.json();
     } catch (error) {
       console.error('Failed to load dictionary:', error);
       return [];
@@ -165,11 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function explainTerm(term) {
     try {
-      const dict = await loadLegalDictionary();
-      const found = dict.find(entry => entry.term.toLowerCase() === term.toLowerCase());
-      if (found) {
-        alert(`📘 ${found.term}: ${found.definition}`);
-      } else {
+    const dict = await loadLegalDictionary();
+    const found = dict.find(entry => entry.term.toLowerCase() === term.toLowerCase());
+    if (found) {
+      alert(`📘 ${found.term}: ${found.definition}`);
+    } else {
         // 如果字典中没有找到，尝试使用 LLM 服务解释
         const response = await fetch(`${API_BASE_URL}/api/llm/analyze`, {
           method: 'POST',
@@ -186,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
           alert(`🤖 ${term}: ${data.analysisResult || 'No explanation available'}`);
         } else {
           alert("Term not found in dictionary and LLM service unavailable.");
-        }
-      }
+    }
+  }
     } catch (error) {
       console.error('Error explaining term:', error);
       alert("Error explaining term. Please try again.");
