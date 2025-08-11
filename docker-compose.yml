@@ -8,7 +8,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - REDIS_HOST=redis
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     networks:
       - legalai-network
     healthcheck:
@@ -16,6 +17,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: unless-stopped
 
   # Contract Management Service
   contract-service:
@@ -28,7 +30,8 @@ services:
       - DB_USER=legaluser
       - DB_PASSWORD=legalpass
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - legalai-network
     healthcheck:
@@ -36,6 +39,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: unless-stopped
 
   # LLM Processing Service
   llm-service:
@@ -47,7 +51,8 @@ services:
       - REDIS_HOST=redis
       - LLAMA_BASE_URL=http://host.docker.internal:11434
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     networks:
       - legalai-network
     healthcheck:
@@ -55,6 +60,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: unless-stopped
 
   # Database
   postgres:
@@ -74,6 +80,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   # Redis Cache
   redis:
@@ -87,6 +94,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    restart: unless-stopped
 
 volumes:
   postgres_data:
