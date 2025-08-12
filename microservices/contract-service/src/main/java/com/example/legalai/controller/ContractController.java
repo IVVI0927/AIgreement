@@ -1,14 +1,14 @@
-package com.example.legalAI.controller;
+package com.example.legalai.controller;
 
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
-import com.example.legalAI.util.FileTextExtractor;
+import com.example.legalai.util.FileTextExtractor;
 import org.springframework.http.HttpStatus;
-import com.example.legalAI.model.ContractDocument;
-import com.example.legalAI.service.ContractService;
+import com.example.legalai.model.ContractDocument;
+import com.example.legalai.service.ContractService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.type.TypeReference;

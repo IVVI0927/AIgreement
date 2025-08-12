@@ -1,8 +1,8 @@
-package com.example.legalAI.service;
+package com.example.legalai.service;
 
-import com.example.legalAI.model.ContractDocument;
-import com.example.legalAI.llm.LlamaService;
-import com.example.legalAI.repository.ContractDocumentRepository;
+import com.example.legalai.model.ContractDocument;
+import com.example.legalai.llm.LlamaService;
+import com.example.legalai.repository.ContractDocumentRepository;
 
 import java.util.List;
 

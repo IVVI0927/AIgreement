@@ -1,4 +1,4 @@
-package com.example.legalAI.llm;
+package com.example.legalai.llm;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

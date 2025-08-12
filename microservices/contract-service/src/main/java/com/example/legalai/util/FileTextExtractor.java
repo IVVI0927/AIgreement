@@ -1,4 +1,4 @@
-package com.example.legalAI.util;
+package com.example.legalai.util;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;

@@ -1,4 +1,4 @@
-package com.example.legalAI.model;
+package com.example.legalai.model;
 
 import jakarta.persistence.*;
 
