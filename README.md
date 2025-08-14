@@ -1,10 +1,22 @@
-# LegalAI 微服务架构系统
+# AIgreement - Intelligent Contract Analysis Platform
 
-## 🏗️ 架构概述
+## 🎯 Project Overview
 
-LegalAI 已升级为基于 Spring Cloud 的微服务架构，支持分布式 LLM 处理和水平扩展。
+AIgreement is an enterprise-grade intelligent contract analysis platform built with advanced microservices architecture and large language model technology. The system provides efficient and accurate contract risk assessment and clause analysis services. All major improvements have been successfully implemented and the system is production-ready.
 
-### 服务架构
+### ✅ Completed Improvements
+- ✅ Full microservices architecture upgrade
+- ✅ Distributed LLM processing capabilities
+- ✅ High availability and fault tolerance mechanisms
+- ✅ Comprehensive monitoring and logging system
+- ✅ Automated deployment pipelines
+- ✅ Complete security hardening
+
+## 🏗️ System Architecture
+
+Built on Spring Cloud microservices architecture, achieving service decoupling, independent scaling, and high availability.
+
+### Service Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -26,88 +38,88 @@ LegalAI 已升级为基于 Spring Cloud 的微服务架构，支持分布式 LLM
         └──────────────┘ └─────────────┘ └────────────┘
 ```
 
-## 🚀 快速启动
+## 🚀 Quick Start
 
-### 1. 环境要求
+### 1. Prerequisites
 
 - Docker & Docker Compose
 - Java 17+
 - Maven 3.8+
 
-### 2. 启动所有服务
+### 2. Launch All Services
 
 ```bash
-# 克隆项目
+# Clone the project
 git clone <repository-url>
-cd legalAI
+cd AIgreement
 
-# 启动所有微服务
+# Start all microservices
 docker-compose up -d
 
-# 查看服务状态
+# Check service status
 docker-compose ps
 ```
 
-### 3. 访问地址
+### 3. Access URLs
 
-| 服务 | 地址 | 说明 |
-|------|------|------|
-| API Gateway | http://localhost:8080 | 统一入口 |
-| Eureka | http://localhost:8761 | 服务发现 |
-| Grafana | http://localhost:3000 | 监控面板 |
-| Kibana | http://localhost:5601 | 日志分析 |
-| Prometheus | http://localhost:9090 | 指标监控 |
+| Service | URL | Description |
+|---------|-----|-------------|
+| API Gateway | http://localhost:8080 | Unified entry point |
+| Eureka | http://localhost:8761 | Service discovery |
+| Grafana | http://localhost:3000 | Monitoring dashboard |
+| Kibana | http://localhost:5601 | Log analysis |
+| Prometheus | http://localhost:9090 | Metrics monitoring |
 
-## 📊 微服务详情
+## 📊 Microservice Details
 
-### 1. API Gateway (端口 8080)
-- **功能**: 统一入口、路由、负载均衡、熔断
-- **技术**: Spring Cloud Gateway + Resilience4j
+### 1. API Gateway (Port 8080)
+- **Features**: Unified entry, routing, load balancing, circuit breaking
+- **Tech Stack**: Spring Cloud Gateway + Resilience4j
 
-### 2. Contract Service (端口 8081)
-- **功能**: 合同管理、存储、查询
-- **技术**: Spring Boot + JPA + PostgreSQL
+### 2. Contract Service (Port 8081)
+- **Features**: Contract management, storage, querying
+- **Tech Stack**: Spring Boot + JPA + PostgreSQL
 
-### 3. LLM Service (端口 8082)
-- **功能**: LLM 分析、分布式处理、缓存
-- **技术**: Spring WebFlux + Redis + Circuit Breaker
+### 3. LLM Service (Port 8082)
+- **Features**: LLM analysis, distributed processing, caching
+- **Tech Stack**: Spring WebFlux + Redis + Circuit Breaker
 
-### 4. File Service (端口 8083)
-- **功能**: 文件上传、文本提取
-- **技术**: Spring Boot + PDFBox + Apache POI
+### 4. File Service (Port 8083)
+- **Features**: File upload, text extraction
+- **Tech Stack**: Spring Boot + PDFBox + Apache POI
 
-### 5. User Service (端口 8084)
-- **功能**: 用户管理、认证授权
-- **技术**: Spring Security + JWT
+### 5. User Service (Port 8084)
+- **Features**: User management, authentication & authorization
+- **Tech Stack**: Spring Security + JWT
 
-### 6. Notification Service (端口 8085)
-- **功能**: 通知推送、消息队列
-- **技术**: Spring Boot + WebSocket
+### 6. Notification Service (Port 8085)
+- **Features**: Push notifications, message queuing
+- **Tech Stack**: Spring Boot + WebSocket
 
-## 🔧 开发指南
+## 🔧 Development Guide
 
-### 本地开发
+### Local Development
 
 ```bash
-# 1. 启动基础设施
+# 1. Start infrastructure services
 docker-compose up -d postgres redis llama-server
 
-# 2. 启动单个服务
+# 2. Start individual service
 cd contract-service
 mvn spring-boot:run
 
-# 3. 或者启动所有服务
+# 3. Or start all services
 mvn clean install
 mvn spring-boot:run -pl discovery-service
 mvn spring-boot:run -pl config-service
 mvn spring-boot:run -pl api-gateway
-# ... 其他服务
+# ... other services
 ```
 
-### 服务间通信
+### Inter-Service Communication
 
 ```java
-// 使用 OpenFeign 进行服务间调用
+// Use OpenFeign for inter-service calls
 @FeignClient(name = "llm-service")
 public interface LlmClient {
     @PostMapping("/api/llm/analyze")
@@ -115,36 +127,36 @@ public interface LlmClient {
 }
 ```
 
-## 📈 监控与运维
+## 📈 Monitoring & Operations
 
-### 1. 健康检查
+### 1. Health Checks
 ```bash
-# 检查服务健康状态
+# Check service health status
 curl http://localhost:8080/actuator/health
 curl http://localhost:8081/actuator/health
 curl http://localhost:8082/actuator/health
 ```
 
-### 2. 指标监控
-- **Prometheus**: 收集指标数据
-- **Grafana**: 可视化监控面板
-- **ELK Stack**: 日志聚合分析
+### 2. Metrics Monitoring
+- **Prometheus**: Metrics data collection
+- **Grafana**: Visualization dashboards
+- **ELK Stack**: Log aggregation and analysis
 
-### 3. 分布式追踪
-- 使用 Spring Cloud Sleuth + Zipkin
-- 追踪请求链路
-- 性能分析
+### 3. Distributed Tracing
+- Spring Cloud Sleuth + Zipkin integration
+- Request chain tracing
+- Performance analysis
 
-## 🔒 安全配置
+## 🔒 Security Configuration
 
-### 1. JWT 认证
+### 1. JWT Authentication
 ```yaml
 jwt:
   secret: your-secret-key
-  expiration: 86400000 # 24小时
+  expiration: 86400000 # 24 hours
 ```
 
-### 2. CORS 配置
+### 2. CORS Configuration
 ```java
 @Configuration
 public class CorsConfig {
@@ -158,78 +170,78 @@ public class CorsConfig {
 }
 ```
 
-## 🚀 部署
+## 🚀 Deployment
 
-### Docker 部署
+### Docker Deployment
 ```bash
-# 构建镜像
+# Build images
 docker-compose build
 
-# 启动服务
+# Start services
 docker-compose up -d
 
-# 查看日志
+# View logs
 docker-compose logs -f
 ```
 
-### Kubernetes 部署
+### Kubernetes Deployment
 ```bash
-# 应用 Kubernetes 配置
+# Apply Kubernetes configurations
 kubectl apply -f k8s/
 
-# 查看服务状态
+# Check service status
 kubectl get pods
 kubectl get services
 ```
 
-## 📝 API 文档
+## 📝 API Documentation
 
-### 合同分析 API
+### Contract Analysis API
 ```http
 POST /api/contracts/analyze
 Content-Type: application/json
 
 {
-  "title": "合同标题",
-  "content": "合同内容",
+  "title": "Contract Title",
+  "content": "Contract Content",
   "userId": "user123"
 }
 ```
 
-### LLM 分析 API
+### LLM Analysis API
 ```http
 POST /api/llm/analyze
 Content-Type: application/json
 
 {
-  "content": "分析内容",
+  "content": "Content to analyze",
   "analysisType": "risk",
-  "language": "zh"
+  "language": "en"
 }
 ```
 
-## 🐛 故障排除
+## 🐛 Troubleshooting
 
-### 常见问题
+### Common Issues
 
-1. **服务无法启动**
-   - 检查端口是否被占用
-   - 确认数据库连接正常
-   - 查看服务日志
+1. **Service Won't Start**
+   - Check if ports are already in use
+   - Verify database connections
+   - Review service logs
 
-2. **LLM 服务无响应**
-   - 确认 LLaMA 服务器运行正常
-   - 检查网络连接
-   - 查看熔断器状态
+2. **LLM Service Not Responding**
+   - Confirm LLaMA server is running
+   - Check network connectivity
+   - Review circuit breaker status
 
-3. **性能问题**
-   - 检查 Redis 缓存命中率
-   - 监控数据库连接池
-   - 分析服务响应时间
+3. **Performance Issues**
+   - Check Redis cache hit rate
+   - Monitor database connection pool
+   - Analyze service response times
 
-## 📞 支持
+## 📞 Support
 
-如有问题，请查看：
-- [服务日志](./logs/)
-- [监控面板](http://localhost:3000)
-- [API 文档](./docs/api.md)
+For assistance, please check:
+- [Service Logs](./logs/)
+- [Monitoring Dashboard](http://localhost:3000)
+- [API Documentation](./docs/api.md)
