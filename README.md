@@ -4,14 +4,6 @@
 
 AIgreement is an enterprise-grade intelligent contract analysis platform built with advanced microservices architecture and large language model technology. The system provides efficient and accurate contract risk assessment and clause analysis services. All major improvements have been successfully implemented and the system is production-ready.
 
-### ✅ Completed Improvements
-- ✅ Full microservices architecture upgrade
-- ✅ Distributed LLM processing capabilities
-- ✅ High availability and fault tolerance mechanisms
-- ✅ Comprehensive monitoring and logging system
-- ✅ Automated deployment pipelines
-- ✅ Complete security hardening
-
 ## 🏗️ System Architecture
 
 Built on Spring Cloud microservices architecture, achieving service decoupling, independent scaling, and high availability.
@@ -50,7 +42,7 @@ Built on Spring Cloud microservices architecture, achieving service decoupling, 
 
 ```bash
 # Clone the project
-git clone <repository-url>
+git clone <https://github.com/IVVI0927/AIgreement>
 cd AIgreement
 
 # Start all microservices
