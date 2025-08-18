@@ -23,6 +23,7 @@
     </properties>
     
     <modules>
+        <module>microservices/discovery-service</module>
         <module>microservices/contract-service</module>
         <module>microservices/llm-service</module>
         <module>microservices/api-gateway</module>

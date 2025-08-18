@@ -1,9 +1,47 @@
-spring.application.name=llm-service
+server:
+  port: 8083
 
-# Web 端口
-server.port=8082
- 
-# LLM 配置
+spring:
+  application:
+    name: llm-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://admin:admin@localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 5
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    metadata-map:
+      service-version: 1.0.0
+      service-group: core
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
 llama:
-  base-url: http://localhost:11434
-  model: llama3 
+  base-url: ${LLAMA_BASE_URL:http://localhost:11434}
+  model: ${LLAMA_MODEL:llama3}
+  timeout: 30000
+  max-retries: 3
+
+redis:
+  enabled: ${REDIS_ENABLED:false}
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT:6379}
+  ttl: 3600

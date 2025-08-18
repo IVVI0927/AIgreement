@@ -1,1 +1,72 @@
- 
+server:
+  port: 8081
+
+spring:
+  application:
+    name: contract-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://admin:admin@localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 5
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    metadata-map:
+      service-version: 1.0.0
+      service-group: core
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, circuitbreakers
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
+    db:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      llm-service:
+        register-health-indicator: true
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10000
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+  retry:
+    instances:
+      llm-service:
+        max-attempts: 3
+        wait-duration: 1000
+        retry-exceptions:
+          - java.io.IOException
+          - java.net.ConnectException
+  timeout:
+    instances:
+      llm-service:
+        timeout-duration: 30s
+
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 30000
+  circuitbreaker:
+    enabled: true
