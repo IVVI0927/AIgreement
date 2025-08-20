@@ -50,6 +50,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+        <!-- WebSocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
         <!-- Eureka Client -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
