@@ -65,4 +65,59 @@ public class ContractController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ContractDocument> getContractById(@PathVariable String id) {
+        return contractService.getContractById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ContractDocument> updateContract(@PathVariable String id, 
+                                                          @RequestBody ContractDocument contract) {
+        return ResponseEntity.ok(contractService.updateContract(id, contract));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContract(@PathVariable String id) {
+        contractService.deleteContract(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Object>> getContractStats() {
+        return ResponseEntity.ok(contractService.getContractStatistics());
+    }
+
+    @PostMapping("/{id}/review")
+    public ResponseEntity<Map<String, Object>> reviewContract(@PathVariable String id,
+                                                              @RequestBody Map<String, Object> review) {
+        return ResponseEntity.ok(contractService.addReview(id, review));
+    }
+
+    @GetMapping("/{id}/history")
+    public ResponseEntity<List<Map<String, Object>>> getContractHistory(@PathVariable String id) {
+        return ResponseEntity.ok(contractService.getContractHistory(id));
+    }
+
+    @PostMapping("/batch-analyze")
+    public ResponseEntity<List<Map<String, Object>>> batchAnalyzeContracts(
+            @RequestBody List<ContractDocument> contracts) {
+        return ResponseEntity.ok(contractService.batchAnalyze(contracts));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ContractDocument>> searchContracts(@RequestParam String query) {
+        return ResponseEntity.ok(contractService.searchContracts(query));
+    }
+
+    @PostMapping("/{id}/export")
+    public ResponseEntity<byte[]> exportContract(@PathVariable String id, 
+                                                 @RequestParam String format) {
+        byte[] exportedData = contractService.exportContract(id, format);
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=contract." + format)
+                .body(exportedData);
+    }
+
 }
