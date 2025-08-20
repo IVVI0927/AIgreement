@@ -16,6 +16,8 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -36,6 +38,7 @@ public class ContractService {
         this.llmServiceClient = llmServiceClient;
     }
 
+    @CacheEvict(value = "contracts", allEntries = true)
     public String analyzeContract(ContractDocument contract) {
         // 保存合同内容到数据库
         contractRepo.save(contract);
@@ -77,7 +80,9 @@ public class ContractService {
         
         return CompletableFuture.completedFuture(fallbackResponse);
     }
+    @Cacheable(value = "contracts", key = "'all-contracts'")
     public List<ContractDocument> getAllContracts() {
-    return contractRepo.findAll();
-}
+        log.info("Fetching all contracts from database");
+        return contractRepo.findAll();
+    }
 }

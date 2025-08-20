@@ -6,6 +6,20 @@ spring:
     name: contract-service
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
 
 eureka:
   client:
