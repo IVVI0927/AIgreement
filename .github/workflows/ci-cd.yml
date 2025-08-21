@@ -93,6 +93,18 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/maven@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high --fail-on=upgradable
+    
+    - name: Upload Snyk results to GitHub Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: snyk.sarif
+    
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
@@ -100,6 +112,7 @@ jobs:
         scan-ref: '.'
         format: 'sarif'
         output: 'trivy-results.sarif'
+        severity: 'CRITICAL,HIGH'
     
     - name: Upload Trivy results to GitHub Security
       uses: github/codeql-action/upload-sarif@v2
@@ -112,6 +125,20 @@ jobs:
         project: 'legal-ai'
         path: '.'
         format: 'HTML'
+        args: >
+          --enableRetired
+          --enableExperimental
+          --nvdApiKey ${{ secrets.NVD_API_KEY }}
+    
+    - name: SonarQube Quality Gate check
+      uses: sonarqube-quality-gate-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    
+    - name: Security audit with npm audit (for frontend)
+      run: |
+        cd frontend
+        npm audit --audit-level moderate
 
   deploy-staging:
     needs: [build, security-scan]
