@@ -41,15 +41,37 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
+        
+        // Strict allowed origins - no wildcards
+        configuration.setAllowedOriginPatterns(Arrays.asList(
                 "http://localhost:3000",
                 "http://localhost:8080",
+                "https://*.legal-ai.com",
                 "https://legal-ai-frontend.com"
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        
+        // Limit HTTP methods
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        
+        // Specific allowed headers - no wildcards
+        configuration.setAllowedHeaders(Arrays.asList(
+                "Authorization", 
+                "Content-Type", 
+                "Accept", 
+                "X-Requested-With",
+                "X-XSRF-TOKEN",
+                "Cache-Control"
+        ));
+        
+        // Expose specific headers only
+        configuration.setExposedHeaders(Arrays.asList(
+                "X-XSRF-TOKEN",
+                "Authorization",
+                "Content-Disposition"
+        ));
+        
         configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
+        configuration.setMaxAge(1800L); // Reduced from 3600 to 1800 seconds
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
