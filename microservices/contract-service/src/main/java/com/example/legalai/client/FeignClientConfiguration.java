@@ -38,7 +38,7 @@ public class FeignClientConfiguration {
         
         @Override
         public Exception decode(String methodKey, feign.Response response) {
-            log.error("Feign client error - Method: {}, Status: {}", 
+            FeignClientConfiguration.log.error("Feign client error - Method: {}, Status: {}", 
                 methodKey, response.status());
             
             switch (response.status()) {

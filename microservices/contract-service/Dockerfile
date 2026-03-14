@@ -1,51 +1,28 @@
-# Multi-stage build for optimized image
-FROM maven:3.9-openjdk-17-slim AS build
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copy parent POM and service POM
-COPY ../../pom.xml ../pom.xml
-COPY pom.xml .
+COPY pom.xml /app/pom.xml
+COPY microservices/contract-service/pom.xml /app/microservices/contract-service/pom.xml
 
-# Download dependencies for caching
-RUN mvn dependency:go-offline -B
+RUN mvn -B -q -f /app/pom.xml -pl microservices/contract-service -am dependency:go-offline
 
-# Copy source code
-COPY src ./src
+COPY microservices/contract-service/src /app/microservices/contract-service/src
 
-# Build the application
-RUN mvn clean package -DskipTests
+RUN mvn -B -q -f /app/pom.xml -pl microservices/contract-service -am clean package -DskipTests
 
-# Runtime stage - use distroless for enhanced security
-FROM gcr.io/distroless/java17-debian11:nonroot AS runtime
+FROM eclipse-temurin:17-jre
+WORKDIR /app
 
-# Security labels for container scanning
-LABEL org.opencontainers.image.title="Contract Service"
-LABEL org.opencontainers.image.description="Legal AI Contract Analysis Service" 
-LABEL org.opencontainers.image.version="1.0.0"
-LABEL org.opencontainers.image.vendor="Legal AI Inc"
-LABEL org.opencontainers.image.licenses="MIT"
-LABEL maintainer="security@legal-ai.com"
-LABEL org.opencontainers.image.source="https://github.com/legal-ai/contract-service"
+RUN addgroup --system spring && adduser --system spring --ingroup spring
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
-# Copy JAR from build stage with proper ownership
-COPY --from=build --chown=nonroot:nonroot /app/target/*.jar app.jar
+COPY --from=build /app/microservices/contract-service/target/*.jar /app/app.jar
 
-# Use nonroot user (already set in distroless base image)
-USER nonroot:nonroot
+USER spring:spring
 
-# Expose port
 EXPOSE 8081
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8081/actuator/health || exit 1
 
-# Security: Use exec form to avoid shell and set security flags
-ENTRYPOINT ["java", \
-    "-Djava.security.egd=file:/dev/./urandom", \
-    "-Dspring.profiles.active=docker", \
-    "-Xmx512m", \
-    "-Xms256m", \
-    "-XX:+UseContainerSupport", \
-    "-XX:MaxRAMPercentage=75.0", \
-    "-Dfile.encoding=UTF-8", \
-    "-Djava.net.preferIPv4Stack=true", \
-    "-XX:+ExitOnOutOfMemoryError", \
-    "-jar", \
-    "app.jar"]
+ENV JAVA_OPTS="-Xmx768m -Xms384m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=docker -jar /app/app.jar"]

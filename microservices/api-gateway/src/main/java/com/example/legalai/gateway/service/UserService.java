@@ -1,5 +1,6 @@
 package com.example.legalai.gateway.service;
 
+import com.example.legalai.gateway.model.Role;
 import com.example.legalai.gateway.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,7 +28,10 @@ public class UserService {
                 "admin@legalai.com",
                 "$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG",
                 "Admin",
-                "User"
+                "User",
+                Role.ADMIN,
+                Set.of("READ_CONTRACTS", "WRITE_CONTRACTS", "MANAGE_USERS"),
+                true
         );
         userStore.put(adminUser.getId(), adminUser);
         userByUsername.put(adminUser.getUsername(), adminUser);
@@ -48,7 +53,10 @@ public class UserService {
                 email,
                 passwordEncoder.encode(password),
                 firstName,
-                lastName
+                lastName,
+                Role.VIEWER,
+                Set.of("READ_CONTRACTS"),
+                true
         );
         
         userStore.put(newUser.getId(), newUser);

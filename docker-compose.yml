@@ -1,7 +1,9 @@
 services:
   # Service Discovery (Eureka)
   discovery-service:
-    build: ./microservices/discovery-service
+    build:
+      context: .
+      dockerfile: microservices/discovery-service/Dockerfile
     ports:
       - "8761:8761"
     environment:
@@ -19,7 +21,9 @@ services:
 
   # API Gateway
   api-gateway:
-    build: ./microservices/api-gateway
+    build:
+      context: .
+      dockerfile: microservices/api-gateway/Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -42,7 +46,9 @@ services:
 
   # Contract Management Service
   contract-service:
-    build: ./microservices/contract-service
+    build:
+      context: .
+      dockerfile: microservices/contract-service/Dockerfile
     ports:
       - "8081:8081"
     environment:
@@ -67,7 +73,9 @@ services:
 
   # LLM Processing Service
   llm-service:
-    build: ./microservices/llm-service
+    build:
+      context: .
+      dockerfile: microservices/llm-service/Dockerfile
     ports:
       - "8083:8083"
     environment:
@@ -86,6 +94,25 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
       interval: 30s
       timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - legalai-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
       retries: 3
     restart: unless-stopped
 

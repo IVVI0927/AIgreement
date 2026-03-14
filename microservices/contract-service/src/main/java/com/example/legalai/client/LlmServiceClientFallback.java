@@ -5,7 +5,9 @@ import com.example.legalai.dto.ContractAnalysisResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -39,15 +41,15 @@ public class LlmServiceClientFallback implements LlmServiceClient {
     }
     
     private ContractAnalysisResponse createFallbackResponse(String message) {
-        ContractAnalysisResponse response = new ContractAnalysisResponse();
-        response.setStatus("FALLBACK");
-        response.setSummary(message);
-        response.setRiskLevel("UNKNOWN");
-        response.setKeyClauses(Collections.emptyList());
-        response.setIssues(Collections.singletonList(message));
-        response.setRecommendations(Collections.singletonList(
-            "Please try again later or contact support if the issue persists"
-        ));
-        return response;
+        return ContractAnalysisResponse.builder()
+                .contractTitle("N/A")
+                .analyzedAt(LocalDateTime.now())
+                .analysisResults(List.of(Map.of(
+                        "status", "FALLBACK",
+                        "summary", message,
+                        "riskLevel", "UNKNOWN",
+                        "recommendation", "Please try again later or contact support"
+                )))
+                .build();
     }
 }

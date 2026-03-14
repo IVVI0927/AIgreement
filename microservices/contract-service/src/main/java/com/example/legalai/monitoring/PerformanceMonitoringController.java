@@ -6,10 +6,10 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuator.endpoint.annotation.Endpoint;
-import org.springframework.boot.actuator.endpoint.annotation.ReadOperation;
-import org.springframework.boot.actuator.health.Health;
-import org.springframework.boot.actuator.health.HealthIndicator;
+import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
+import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,14 +44,14 @@ public class PerformanceMonitoringController {
 
     private void initializeMetrics() {
         // Register custom gauges
-        Gauge.builder("database.connections.active")
-                .register(meterRegistry, activeConnections, AtomicLong::get);
+        Gauge.builder("database.connections.active", activeConnections, AtomicLong::get)
+                .register(meterRegistry);
         
-        Gauge.builder("api.requests.total")
-                .register(meterRegistry, totalRequests, AtomicLong::get);
+        Gauge.builder("api.requests.total", totalRequests, AtomicLong::get)
+                .register(meterRegistry);
         
-        Gauge.builder("api.errors.total")
-                .register(meterRegistry, errorCount, AtomicLong::get);
+        Gauge.builder("api.errors.total", errorCount, AtomicLong::get)
+                .register(meterRegistry);
     }
 
     @GetMapping("/metrics")

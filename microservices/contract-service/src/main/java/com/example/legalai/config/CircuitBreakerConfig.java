@@ -1,7 +1,6 @@
 package com.example.legalai.config;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
@@ -24,8 +23,9 @@ public class CircuitBreakerConfig {
     
     @Bean
     CircuitBreakerRegistry circuitBreakerRegistry() {
-        CircuitBreakerConfig circuitBreakerConfig = CircuitBreakerConfig.custom()
-            .slidingWindowType(CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
+        io.github.resilience4j.circuitbreaker.CircuitBreakerConfig circuitBreakerConfig =
+            io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.custom()
+            .slidingWindowType(io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
             .slidingWindowSize(10)
             .minimumNumberOfCalls(5)
             .failureRateThreshold(50)
@@ -110,7 +110,7 @@ public class CircuitBreakerConfig {
                     .onTimeout(event -> 
                         log.warn("TimeLimiter {} timeout after {}ms", 
                             event.getTimeLimiterName(), 
-                            event.getTimeoutDuration().toMillis()));
+                            timeLimiterConfig.getTimeoutDuration().toMillis()));
             });
         
         return registry;

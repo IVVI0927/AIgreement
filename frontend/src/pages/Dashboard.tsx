@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import ContractList from '../components/ContractList';
 import { contractService } from '../services/contractService';
-import '../styles/Dashboard.css';
 
 interface DashboardStats {
   totalContracts: number;
@@ -12,7 +9,6 @@ interface DashboardStats {
 }
 
 const Dashboard: React.FC = () => {
-  const { user } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     totalContracts: 0,
     pendingReview: 0,
@@ -27,8 +23,13 @@ const Dashboard: React.FC = () => {
 
   const loadDashboardData = async () => {
     try {
-      const data = await contractService.getDashboardStats();
-      setStats(data);
+      const data = await contractService.getDashboardStats() as Partial<DashboardStats>;
+      setStats({
+        totalContracts: data.totalContracts ?? 0,
+        pendingReview: data.pendingReview ?? 0,
+        highRiskContracts: data.highRiskContracts ?? 0,
+        recentActivity: data.recentActivity ?? 0
+      });
     } catch (error) {
       console.error('Failed to load dashboard data:', error);
     } finally {
@@ -39,8 +40,8 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard" role="region" aria-label="Dashboard">
       <header className="dashboard-header">
-        <h1>Welcome, {user?.firstName || 'User'}</h1>
-        <p className="role-badge" aria-label="User role">{user?.role}</p>
+        <h1>Contract Dashboard</h1>
+        <p className="role-badge" aria-label="Environment">Frontend status: connected</p>
       </header>
 
       <section className="stats-grid" aria-label="Statistics">
@@ -63,11 +64,11 @@ const Dashboard: React.FC = () => {
       </section>
 
       <section className="contracts-section" aria-label="Recent contracts">
-        <h2>Recent Contracts</h2>
+        <h2>Service Check</h2>
         {loading ? (
-          <div role="status" aria-live="polite">Loading contracts...</div>
+          <div role="status" aria-live="polite">Loading dashboard data...</div>
         ) : (
-          <ContractList />
+          <div role="status" aria-live="polite">Dashboard data loaded.</div>
         )}
       </section>
     </div>

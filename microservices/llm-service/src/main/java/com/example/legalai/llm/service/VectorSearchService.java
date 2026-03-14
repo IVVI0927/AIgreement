@@ -1,15 +1,16 @@
 package com.example.legalai.llm.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 
-@Slf4j
 @Service
 public class VectorSearchService {
+    private static final Logger log = LoggerFactory.getLogger(VectorSearchService.class);
 
     private final WebClient chromaClient;
     private final LlmService llmService;
@@ -49,7 +50,7 @@ public class VectorSearchService {
             .bodyValue(request)
             .retrieve()
             .bodyToMono(Map.class)
-            .map(this::parseSearchResults)
+            .map(result -> parseSearchResults((Map<String, Object>) result))
             .doOnSuccess(results -> log.info("Semantic search completed, found {} results", results.size()))
             .doOnError(error -> log.error("Semantic search failed", error));
     }
